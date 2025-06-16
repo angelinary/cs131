@@ -1,0 +1,11 @@
+/home/angelina_ryabechenkova
+meminfo
+cpuinfo
+os-release
+PRETTY_NAME="Ubuntu 20.04.6 LTS"
+  13354 161.0
+  12421 237.0
+  11138 236.0
+  13290 161.0
+  12956 237.0
+  11278 236.0

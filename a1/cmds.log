@@ -1,0 +1,7 @@
+echo /home/angelina_ryabechenkova   #question 1
+ ls /proc | grep mem | grep info   # Question 2
+ls /proc | grep cpu | grep info    # Question 2
+ls /etc/ | grep ^os     # Question 3, part 1
+cat /etc/os-release | grep PRETTY   # Question 3 part 2. Here you have the full market name of the OS
+cat 2019-04.csv | grep 2019-04-02  | cut -d , -f 8 | sort |  uniq -c | sort -r | head -n 3 >> a1.txt    #Qestion 4A. The top 3 popular pick up locations are found.
+cat 2019-04.csv | grep 2019-04-10  | cut -d , -f 8 | sort |  uniq -c | sort -r | head -n 3 >> a1.txt    #Qestion 4B. The top 3 popular pick up locations are found.
