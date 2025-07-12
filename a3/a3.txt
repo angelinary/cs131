@@ -1,0 +1,30 @@
+Student results are as follows: 
+ 
+
+Name of the student is: David
+Student's total score is: 195
+Student's average is: 65.00
+Student's pass status is: Fail
+
+Name of the student is: Eve
+Student's total score is: 265
+Student's average is: 88.33
+Student's pass status is: Pass
+
+Name of the student is: Bob
+Student's total score is: 246
+Student's average is: 82.00
+Student's pass status is: Pass
+
+Name of the student is: Charlie
+Student's total score is: 270
+Student's average is: 90.00
+Student's pass status is: Pass
+
+Name of the student is: Alice
+Student's total score is: 253
+Student's average is: 84.33
+Student's pass status is: Pass
+
+The student with the following name scored the highest: Charlie(270)
+The student with the following name scored the lowest: David(195)

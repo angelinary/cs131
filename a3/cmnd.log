@@ -1,0 +1,1 @@
+awk -f grader.awk grades.csv   # this is a command that tells awk to read my awk program from grader.awk instead of reading it from command line, and grades.csv is my data file
