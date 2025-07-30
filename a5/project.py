@@ -1,5 +1,9 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import mean
+from pyspark.sql.functions import mean, when, col
+from pyspark.ml.feature import VectorAssembler
+from pyspark.ml.classification import LogisticRegression
+from pyspark.ml import Pipeline
+from pyspark.ml.evaluation import BinaryClassificationEvaluator
 import matplotlib.pyplot as plt
 import pandas
 # All imports that we need to make the logic work
@@ -30,6 +34,23 @@ def main(): #Declared main, so we wouldn't have to move the remaining two method
     # Do the same for males
     df_male = df.filter("Gender = 'Male'").sort("Age")
     scatter_plot(df_male, "Male", "male_scatter_all.png")
+    
+    # ML part
+    df = df.withColumn("Gender_Int", when(col("Gender")=="Female", 1).otherwise(0))
+    assembler = VectorAssembler(inputCols=["Age", "Gender_Int", "Avg_Daily_Usage_Hours"], outputCol="features")
+    #mldf = assembler.transform(df)
+    lr = LogisticRegression(labelCol="Mental_Health_Score", featuresCol="features")
+    pipeline = Pipeline(stages=[assembler, lr])
+
+    # Split the data now
+    (trainingData, testData) = df.randomSplit([0.8, 0.2]) #80% and 20%
+    model = pipeline.fit(trainingData)
+
+    # Predictions
+    predictions = model.transform(testData)
+    evaluator = BinaryClassificationEvaluator(labelCol="label", rawPredictionCall="RawPrediction", metricName="areaUnderROC")
+    auc = evaluator.evaluate(predictions)
+    print(f"Area under ROC:{auc}")
 
     # Stop the Spark session
     spark.stop()
