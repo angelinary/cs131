@@ -3,7 +3,7 @@ from pyspark.sql.functions import mean, when, col
 from pyspark.ml.feature import VectorAssembler
 from pyspark.ml.classification import LogisticRegression
 from pyspark.ml import Pipeline
-from pyspark.ml.evaluation import BinaryClassificationEvaluator
+from pyspark.ml.evaluation import MulticlassClassificationEvaluator
 import matplotlib.pyplot as plt
 import pandas
 # All imports that we need to make the logic work
@@ -48,9 +48,22 @@ def main(): #Declared main, so we wouldn't have to move the remaining two method
 
     # Predictions
     predictions = model.transform(testData)
-    evaluator = BinaryClassificationEvaluator(labelCol="label", rawPredictionCall="RawPrediction", metricName="areaUnderROC")
-    auc = evaluator.evaluate(predictions)
-    print(f"Area under ROC:{auc}")
+
+    acc_eval = MulticlassClassificationEvaluator(labelCol="Mental_Health_Score", predictionCol="prediction", metricName="accuracy")
+    acc = acc_eval.evaluate(predictions)
+    print(f"Accuracy of model: {acc}")
+
+    f1_eval = MulticlassClassificationEvaluator(labelCol="Mental_Health_Score", predictionCol="prediction", metricName="f1")
+    f1 = f1_eval.evaluate(predictions)
+    print(f"F1 score of model: {f1}")
+
+    wp_eval = MulticlassClassificationEvaluator(labelCol="Mental_Health_Score", predictionCol="prediction", metricName="weightedPrecision")
+    wp = wp_eval.evaluate(predictions)
+    print(f"Weighted precision of model: {wp}")
+
+    # Accuracy of model: 0.5594405594405595
+    # F1 score of model: 0.5530180889735065
+    # Weighted precision of model: 0.5488578635833102
 
     # Stop the Spark session
     spark.stop()
