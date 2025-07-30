@@ -37,10 +37,9 @@ def main(): #Declared main, so we wouldn't have to move the remaining two method
     
     # ML part
     df = df.withColumn("Gender_Int", when(col("Gender")=="Female", 1).otherwise(0))
-    assembler = VectorAssembler(inputCols=["Age", "Gender_Int", "Avg_Daily_Usage_Hours"], outputCol="features")
-    #mldf = assembler.transform(df)
-    lr = LogisticRegression(labelCol="Mental_Health_Score", featuresCol="features")
-    pipeline = Pipeline(stages=[assembler, lr])
+    assembler = VectorAssembler(inputCols=["Age", "Gender_Int", "Avg_Daily_Usage_Hours"], outputCol="features") #Assembler creates a new column from the columns that our model finds important
+    lr = LogisticRegression(labelCol="Mental_Health_Score", featuresCol="features") # Attempts to draw correlation btw "features" created by vector assembler and "mental health score" which is our target
+    pipeline = Pipeline(stages=[assembler, lr])   # Run these things in the given order (assembler, then lr)
 
     # Split the data now
     (trainingData, testData) = df.randomSplit([0.8, 0.2]) #80% and 20%
